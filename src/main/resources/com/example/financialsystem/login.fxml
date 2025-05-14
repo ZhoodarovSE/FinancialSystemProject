@@ -14,7 +14,7 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <AnchorPane layoutY="3.0" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #A0D6B8;">
+            <AnchorPane layoutY="2.0" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #A0D6B8;">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="75.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -31,7 +31,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="40.0" layoutY="332.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="220.0" style="-fx-background-color: transparent; -fx-border-color: #000000; -fx-border-width: 1; -fx-border-radius: 5;" text="Create new Account" />
+                  <Button layoutX="40.0" layoutY="332.0" mnemonicParsing="false" onAction="#showRegistrationWindow" prefHeight="40.0" prefWidth="220.0" style="-fx-background-color: transparent; -fx-border-color: #000000; -fx-border-width: 1; -fx-border-radius: 5;" text="Create new Account" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="300.0" layoutY="3.0" prefHeight="400.0" prefWidth="300.0">

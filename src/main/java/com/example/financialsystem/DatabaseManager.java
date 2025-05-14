@@ -39,4 +39,15 @@ public class DatabaseManager {
         }
         return null;
     }
-}
+    public static boolean usernameExists(String username) throws SQLException {
+        String sql = "SELECT 1 FROM users WHERE username = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        }
+
+
+
+}}
