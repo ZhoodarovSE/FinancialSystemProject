@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -61,21 +60,23 @@ public class LoginController {
         } catch (SQLException e) {
             showAlert("Database Error", "Authentication failed: " + e.getMessage());
         }
-
     }
 
     private void openMainWindow(String username, String role) {
         try {
             FXMLLoader loader;
             if (role.equalsIgnoreCase("ANALYST")) {
-                loader = new FXMLLoader(getClass().getResource("/com/example/financialSystem/analystMainWindow.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/financialsystem/AnalystMainWindow.fxml"));
                 Parent root = loader.load();
+                AnalystMainWindowController controller = loader.getController();
+                int analystId = DatabaseManager.getUserId(username);
+                controller.setAnalyst(username, analystId);
                 Stage stage = new Stage();
                 stage.setTitle("Finance Manager - " + username);
                 stage.setScene(new Scene(root, 800, 600));
                 stage.show();
             } else {
-                loader = new FXMLLoader(getClass().getResource("/com/example/financialSystem/userMainWindow.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/financialsystem/UserMainWindow.fxml"));
                 Parent root = loader.load();
                 UserMainWindowController controller = loader.getController();
                 int userId = DatabaseManager.getUserId(username);
@@ -92,6 +93,7 @@ public class LoginController {
             showAlert("Error", "Failed to open main window: " + e.getMessage());
         }
     }
+
     @FXML
     private void showRegistrationWindow() {
         try {
@@ -112,5 +114,4 @@ public class LoginController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 }

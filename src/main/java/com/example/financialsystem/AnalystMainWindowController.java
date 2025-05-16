@@ -32,7 +32,6 @@ public class AnalystMainWindowController {
     @FXML private Label userInfoLabel;
     @FXML private TableView<Transaction> transactionsTable;
     @FXML private TableView<Goal> goalsTable;
-    @FXML private LineChart<String, Number> incomeExpenseChart;
     @FXML private TextArea noteTextArea;
     @FXML private Label warningLabel;
     @FXML private Label analystLabel;
@@ -128,7 +127,6 @@ public class AnalystMainWindowController {
                     currentUser.getTotalIncome() - currentUser.getTotalExpense()));
             loadTransactions();
             loadGoals();
-            loadChart();
             checkWarnings();
         } catch (SQLException e) {
             showAlert("Error", "User not found or database error: " + e.getMessage());
@@ -148,35 +146,6 @@ public class AnalystMainWindowController {
 
     private void loadGoals() throws SQLException {
         goalsTable.setItems(FXCollections.observableArrayList(currentUser.getGoals()));
-    }
-
-    private void loadChart() throws SQLException {
-        incomeExpenseChart.getData().clear();
-        XYChart.Series<String, Number> incomeSeries = new XYChart.Series<>();
-        incomeSeries.setName("Income");
-        XYChart.Series<String, Number> expenseSeries = new XYChart.Series<>();
-        expenseSeries.setName("Expense");
-
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy");
-        for (int i = 11; i >= 0; i--) {
-            LocalDate date = today.minusMonths(i);
-            String month = date.format(formatter);
-            double income = 0, expense = 0;
-            for (Income inc : currentUser.getIncomes()) {
-                if (inc.getDate().getYear() == date.getYear() && inc.getDate().getMonth() == date.getMonth()) {
-                    income += inc.getAmount();
-                }
-            }
-            for (Expense exp : currentUser.getExpenses()) {
-                if (exp.getDate().getYear() == date.getYear() && exp.getDate().getMonth() == date.getMonth()) {
-                    expense += exp.getAmount();
-                }
-            }
-            incomeSeries.getData().add(new XYChart.Data<>(month, income));
-            expenseSeries.getData().add(new XYChart.Data<>(month, expense));
-        }
-        incomeExpenseChart.getData().addAll(incomeSeries, expenseSeries);
     }
 
     private void checkWarnings() throws SQLException {
@@ -278,7 +247,6 @@ public class AnalystMainWindowController {
         userInfoLabel.setText("Enter a username to view profile");
         transactionsTable.getItems().clear();
         goalsTable.getItems().clear();
-        incomeExpenseChart.getData().clear();
         noteTextArea.clear();
         warningLabel.setText("");
         currentUser = null;

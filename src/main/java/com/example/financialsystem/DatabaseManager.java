@@ -253,6 +253,17 @@ public class DatabaseManager {
     }
 
     public static void addNote(int userId, int analystId, String text, LocalDate date) throws SQLException {
+        // Проверка существования analystId
+        String checkSql = "SELECT 1 FROM users WHERE id = ? AND role = 'ANALYST'";
+        try (Connection conn = getConnection();
+             PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+            checkStmt.setInt(1, analystId);
+            ResultSet rs = checkStmt.executeQuery();
+            if (!rs.next()) {
+                throw new SQLException("Invalid analyst_id: " + analystId + " does not exist or is not an analyst");
+            }
+        }
+
         String sql = "INSERT INTO notes (user_id, analyst_id, text, created_at) VALUES (?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
