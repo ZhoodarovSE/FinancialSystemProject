@@ -68,17 +68,18 @@ public class LoginController {
         try {
             FXMLLoader loader;
             if (role.equalsIgnoreCase("ANALYST")) {
-                loader = new FXMLLoader(getClass().getResource("/com/example/FinancialSystem/analystMainWindow.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/financialSystem/analystMainWindow.fxml"));
                 Parent root = loader.load();
                 Stage stage = new Stage();
                 stage.setTitle("Finance Manager - " + username);
                 stage.setScene(new Scene(root, 800, 600));
                 stage.show();
             } else {
-                loader = new FXMLLoader(getClass().getResource("/com/example/FinancialSystem/userMainWindow.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/example/financialSystem/userMainWindow.fxml"));
                 Parent root = loader.load();
                 UserMainWindowController controller = loader.getController();
-
+                int userId = DatabaseManager.getUserId(username);
+                controller.setUser(new RegularUser(username, userId));
                 Stage stage = new Stage();
                 stage.setTitle("Finance Manager - " + username);
                 stage.setScene(new Scene(root, 800, 600));
@@ -87,7 +88,7 @@ public class LoginController {
 
             Stage loginStage = (Stage) usernameField.getScene().getWindow();
             loginStage.close();
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             showAlert("Error", "Failed to open main window: " + e.getMessage());
         }
     }

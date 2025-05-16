@@ -1,14 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.financialsystem.AnalystMainWindowController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financialsystem.AnalystMainWindowController">
+   <children>
+      <AnchorPane prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <AnchorPane prefHeight="45.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label layoutX="14.0" layoutY="8.0" text="Financial Management System - Analyst">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </top>
+               <left>
+                  <AnchorPane prefHeight="554.4" prefWidth="200.0" style="-fx-background-color: #A0D9C2;">
+                     <children>
+                        <Label layoutX="62.0" layoutY="147.0" text="Welcome,">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="analystLabel" layoutX="63.0" layoutY="174.0" text="Analyst">
+                           <font>
+                              <Font name="Arial Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Line endX="37.39996337890625" endY="-1.52587890625E-5" layoutX="131.0" layoutY="207.0" startX="-100.0" />
+                        <Button layoutX="27.0" layoutY="242.0" mnemonicParsing="false" onAction="#showAllUsersPane" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #000000; -fx-border-radius: 5;" text="All Users">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="27.0" layoutY="290.0" mnemonicParsing="false" onAction="#userProfilePane" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #000000; -fx-border-radius: 5;" text="User Profile">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="64.0" layoutY="489.0" onMouseClicked="#logout" prefHeight="22.0" prefWidth="70.0" style="-fx-border-color: #000000; -fx-border-radius: 5;" text="   Logout" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </left>
+               <center>
+                  <AnchorPane prefHeight="554.4" prefWidth="600.0" style="-fx-background-color: #999999;">
+                     <children>
+                        <AnchorPane fx:id="usersPane" prefHeight="554.4" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane layoutX="11.0" layoutY="38.0" prefHeight="532.0" prefWidth="578.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
+                                 <children>
+                                    <TableView fx:id="usersTable" prefHeight="400.0" prefWidth="578.0">
+                                       <columns>
+                                          <TableColumn prefWidth="100.0" text="Username" />
+                                          <TableColumn prefWidth="100.0" text="Name" />
+                                          <TableColumn prefWidth="100.0" text="Surname" />
+                                          <TableColumn prefWidth="100.0" text="Income" />
+                                          <TableColumn prefWidth="100.0" text="Expense" />
+                                          <TableColumn prefWidth="78.0" text="Balance" />
+                                       </columns>
+                                    </TableView>
+                                    <ComboBox fx:id="periodComboBox" layoutX="14.0" layoutY="410.0" prefWidth="150.0" promptText="Select Time Period" />
+                                    <Button layoutX="180.0" layoutY="410.0" mnemonicParsing="false" onAction="#refresh" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #A0D9C2; -fx-background-radius: 5;" text="Refresh">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Button layoutX="320.0" layoutY="410.0" mnemonicParsing="false" onAction="#exportAll" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #A0D9C2; -fx-background-radius: 5;" text="Export All">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="userProfilePane" prefHeight="554.4" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane layoutX="12.0" layoutY="11.0" prefHeight="532.0" prefWidth="578.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
+                                 <children>
+                                    <TextField fx:id="searchUsernameField" layoutX="14.0" layoutY="14.0" prefWidth="200.0" promptText="Enter username" style="-fx-border-radius: 5; -fx-border-color: #A0D9C2;" />
+                                    <Button layoutX="220.0" layoutY="14.0" mnemonicParsing="false" onAction="#search" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #A0D9C2; -fx-background-radius: 5;" text="Search">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Label fx:id="userInfoLabel" layoutX="14.0" layoutY="50.0" prefWidth="550.0" text="Enter a username to view profile" />
+                                    <TableView fx:id="transactionsTable" layoutX="14.0" layoutY="80.0" prefHeight="200.0" prefWidth="550.0">
+                                       <columns>
+                                          <TableColumn prefWidth="100.0" text="Type" />
+                                          <TableColumn prefWidth="100.0" text="Amount" />
+                                          <TableColumn prefWidth="200.0" text="Description" />
+                                          <TableColumn prefWidth="150.0" text="Date" />
+                                       </columns>
+                                    </TableView>
+                                    <TableView fx:id="goalsTable" layoutX="14.0" layoutY="290.0" prefHeight="100.0" prefWidth="550.0">
+                                       <columns>
+                                          <TableColumn prefWidth="300.0" text="Goal" />
+                                          <TableColumn prefWidth="250.0" text="Target Amount" />
+                                       </columns>
+                                    </TableView>
+                                    <LineChart fx:id="incomeExpenseChart" layoutX="14.0" layoutY="400.0" prefHeight="100.0" prefWidth="550.0" title="Income vs Expense">
+                                       <xAxis>
+                                          <CategoryAxis label="Month" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis label="Amount" />
+                                       </yAxis>
+                                    </LineChart>
+                                    <TextArea fx:id="noteTextArea" layoutX="14.0" layoutY="510.0" prefHeight="60.0" prefWidth="400.0" promptText="Enter note for user" wrapText="true" />
+                                    <Button layoutX="420.0" layoutY="510.0" mnemonicParsing="false" onAction="#addNote" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #A0D9C2; -fx-background-radius: 5;" text="Add Note">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Button layoutX="420.0" layoutY="550.0" mnemonicParsing="false" onAction="#exportProfile" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #A0D9C2; -fx-background-radius: 5;" text="Export Profile">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Label fx:id="warningLabel" layoutX="14.0" layoutY="580.0" style="-fx-text-fill: red;" text="" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
