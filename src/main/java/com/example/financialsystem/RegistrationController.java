@@ -45,9 +45,10 @@ public class RegistrationController {
                 showError("Username is already taken");
                 return;
             }
+            // SQL-запрос для добавления пользователя в таблицу users
             String sql = "INSERT INTO users (username, password, name, surname, role) VALUES (?, ?, ?, ?, ?) RETURNING id";
-            try (Connection conn = DatabaseManager.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+            try (Connection conn = DatabaseManager.getConnection();// Соединение с базой
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {// Подготовленный запрос
                 stmt.setString(1, username);
                 stmt.setString(2, password);
                 stmt.setString(3, name);

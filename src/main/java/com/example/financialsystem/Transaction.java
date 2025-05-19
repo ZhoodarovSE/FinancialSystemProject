@@ -2,16 +2,14 @@ package com.example.financialsystem;
 
 import java.time.LocalDate;
 
-public class Transaction {
+public abstract class Transaction {
     private final int id;
-    private final String type;
     private final double amount;
-    private final String description;
     private final LocalDate date;
+    private final String description;
 
-    public Transaction(int id, String type, double amount, String description, LocalDate date) {
+    public Transaction(int id, double amount, String description, LocalDate date) {
         this.id = id;
-        this.type = type;
         this.amount = amount;
         this.description = description;
         this.date = date;
@@ -19,10 +17,6 @@ public class Transaction {
 
     public int getId() {
         return id;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public double getAmount() {
@@ -36,4 +30,7 @@ public class Transaction {
     public LocalDate getDate() {
         return date;
     }
+
+    // Абстрактный метод для получения типа транзакции
+    public abstract String getType();
 }

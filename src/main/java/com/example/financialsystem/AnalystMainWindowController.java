@@ -36,14 +36,12 @@ public class AnalystMainWindowController {
     @FXML private Label warningLabel;
     @FXML private Label analystLabel;
 
-    private String analystUsername;
-    private int analystId;
+    private Analyst analyst;
     private RegularUser currentUser;
 
     public void setAnalyst(String username, int analystId) {
-        this.analystUsername = username;
-        this.analystId = analystId;
-        analystLabel.setText(username);
+        this.analyst = new Analyst(analystId, username);
+        analystLabel.setText(analyst.getUsername());
         initialize();
     }
 
@@ -135,12 +133,8 @@ public class AnalystMainWindowController {
 
     private void loadTransactions() throws SQLException {
         List<Transaction> transactions = new ArrayList<>();
-        for (Income income : currentUser.getIncomes()) {
-            transactions.add(new Transaction(income.getId(), "INCOME", income.getAmount(), income.getSource(), income.getDate()));
-        }
-        for (Expense expense : currentUser.getExpenses()) {
-            transactions.add(new Transaction(expense.getId(), "EXPENSE", expense.getAmount(), expense.getForWhat(), expense.getDate()));
-        }
+        transactions.addAll(currentUser.getIncomes());
+        transactions.addAll(currentUser.getExpenses());
         transactionsTable.setItems(FXCollections.observableArrayList(transactions));
     }
 
@@ -174,7 +168,7 @@ public class AnalystMainWindowController {
             return;
         }
         try {
-            DatabaseManager.addNote(currentUser.getUserId(), analystId, note, LocalDate.now());
+            DatabaseManager.addNote(currentUser.getId(), analyst.getId(), note, LocalDate.now());
             noteTextArea.clear();
             showAlert("Success", "Note saved successfully");
         } catch (SQLException e) {

@@ -4,27 +4,16 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-public class RegularUser {
-    private final String username;
-    private final int userId;
+public class RegularUser extends AbstractUser {
     private final DatabaseManager dbManager;
 
     public RegularUser(String username, int userId) {
-        this.username = username;
-        this.userId = userId;
+        super(username, userId);
         this.dbManager = new DatabaseManager();
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
     public void addIncome(double amount, String source, LocalDate date) throws SQLException {
-        dbManager.addTransaction(userId, amount, "INCOME", source, date);
+        dbManager.addTransaction(id, amount, "INCOME", source, date);
     }
 
     public void updateIncome(int incomeId, double amount, String source, LocalDate date) throws SQLException {
@@ -36,11 +25,11 @@ public class RegularUser {
     }
 
     public List<Income> getIncomes() throws SQLException {
-        return dbManager.getIncomes(userId);
+        return dbManager.getIncomes(id);
     }
 
     public void addExpense(double amount, String forWhat, LocalDate date) throws SQLException {
-        dbManager.addTransaction(userId, amount, "EXPENSE", forWhat, date);
+        dbManager.addTransaction(id, amount, "EXPENSE", forWhat, date);
     }
 
     public void updateExpense(int expenseId, double amount, String forWhat, LocalDate date) throws SQLException {
@@ -52,11 +41,11 @@ public class RegularUser {
     }
 
     public List<Expense> getExpenses() throws SQLException {
-        return dbManager.getExpenses(userId);
+        return dbManager.getExpenses(id);
     }
 
     public void addGoal(String description, double targetAmount) throws SQLException {
-        dbManager.addGoal(userId, description, targetAmount);
+        dbManager.addGoal(id, description, targetAmount);
     }
 
     public void updateGoal(int goalId, String description, double targetAmount) throws SQLException {
@@ -68,15 +57,15 @@ public class RegularUser {
     }
 
     public List<Goal> getGoals() throws SQLException {
-        return dbManager.getGoals(userId);
+        return dbManager.getGoals(id);
     }
 
     public double getTotalIncome() throws SQLException {
-        return dbManager.getTotalIncome(userId);
+        return dbManager.getTotalIncome(id);
     }
 
     public double getTotalExpense() throws SQLException {
-        return dbManager.getTotalExpense(userId);
+        return dbManager.getTotalExpense(id);
     }
 
     public String generateReport() throws SQLException {
@@ -96,7 +85,6 @@ public class RegularUser {
     }
 
     public List<Note> getNotes() throws SQLException {
-        return DatabaseManager.getNotesForUser(userId);
+        return DatabaseManager.getNotesForUser(id);
     }
 }
-

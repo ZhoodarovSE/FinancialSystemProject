@@ -19,9 +19,6 @@ public class Note {
         return id;
     }
 
-    public String getContent() {
-        return content;
-    }
 
     public LocalDate getDate() {
         return date;

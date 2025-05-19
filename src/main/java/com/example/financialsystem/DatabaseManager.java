@@ -1,5 +1,6 @@
 package com.example.financialsystem;
 
+// Подключаем библиотеки для работы с SQL, датами и списками
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,10 +9,12 @@ import java.util.List;
 import static java.sql.DriverManager.getConnection;
 
 public class DatabaseManager {
+    // Настройки для подключения к базе данных
     private static final String URL = "jdbc:postgresql://localhost:5432/finance_manager";
     private static final String USER = "postgres";
     private static final String PASSWORD = "nurchik04";
 
+    // Создаём администратора при запуске программы
     static {
         try {
             createDefaultAdmin();
@@ -21,10 +24,12 @@ public class DatabaseManager {
         }
     }
 
+    // Получаем соединение с базой данных
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
+    // Создаём стандартного администратора, если он ещё не существует
     private static void createDefaultAdmin() throws SQLException {
         String adminUsername = "admin";
         String adminPassword = "qwerty12";
@@ -55,6 +60,7 @@ public class DatabaseManager {
         }
     }
 
+    // Проверяем логин и пароль пользователя
     public static boolean authenticateUser(String username, String password) throws SQLException {
         String sql = "SELECT password FROM users WHERE username = ?";
         try (Connection conn = getConnection();
@@ -69,6 +75,7 @@ public class DatabaseManager {
         return false;
     }
 
+    // Получаем роль пользователя
     public static String getUserRole(String username) throws SQLException {
         String sql = "SELECT role FROM users WHERE username = ?";
         try (Connection conn = getConnection();
@@ -82,6 +89,7 @@ public class DatabaseManager {
         return null;
     }
 
+    // Проверяем, существует ли пользователь
     public static boolean usernameExists(String username) throws SQLException {
         String sql = "SELECT 1 FROM users WHERE username = ?";
         try (Connection conn = getConnection();
@@ -92,6 +100,7 @@ public class DatabaseManager {
         }
     }
 
+    // Получаем ID пользователя по имени
     public static int getUserId(String username) throws SQLException {
         String sql = "SELECT id FROM users WHERE username = ?";
         try (Connection conn = getConnection();
@@ -105,6 +114,7 @@ public class DatabaseManager {
         throw new SQLException("User not found: " + username);
     }
 
+    // Добавляем новую транзакцию
     public static void addTransaction(int userId, double amount, String type, String description, LocalDate date) throws SQLException {
         String sql = "INSERT INTO transactions (user_id, amount, type, description, date) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
@@ -118,6 +128,7 @@ public class DatabaseManager {
         }
     }
 
+    // Обновляем существующую транзакцию
     public static void updateTransaction(int transactionId, double amount, String description, LocalDate date) throws SQLException {
         String sql = "UPDATE transactions SET amount = ?, description = ?, date = ? WHERE id = ?";
         try (Connection conn = getConnection();
@@ -130,6 +141,7 @@ public class DatabaseManager {
         }
     }
 
+    // Удаляем транзакцию
     public static void deleteTransaction(int transactionId) throws SQLException {
         String sql = "DELETE FROM transactions WHERE id = ?";
         try (Connection conn = getConnection();
@@ -139,6 +151,7 @@ public class DatabaseManager {
         }
     }
 
+    // Получаем список доходов пользователя
     public static List<Income> getIncomes(int userId) throws SQLException {
         List<Income> incomes = new ArrayList<>();
         String sql = "SELECT id, amount, description, date FROM transactions WHERE user_id = ? AND type = 'INCOME'";
@@ -158,6 +171,7 @@ public class DatabaseManager {
         return incomes;
     }
 
+    // Получаем список расходов пользователя
     public static List<Expense> getExpenses(int userId) throws SQLException {
         List<Expense> expenses = new ArrayList<>();
         String sql = "SELECT id, amount, description, date FROM transactions WHERE user_id = ? AND type = 'EXPENSE'";
@@ -177,6 +191,7 @@ public class DatabaseManager {
         return expenses;
     }
 
+    // Добавляем новую цель
     public static void addGoal(int userId, String description, double targetAmount) throws SQLException {
         String sql = "INSERT INTO goals (user_id, goal_description, target_amount) VALUES (?, ?, ?)";
         try (Connection conn = getConnection();
@@ -188,6 +203,7 @@ public class DatabaseManager {
         }
     }
 
+    // Обновляем существующую цель
     public static void updateGoal(int goalId, String description, double targetAmount) throws SQLException {
         String sql = "UPDATE goals SET goal_description = ?, target_amount = ? WHERE id = ?";
         try (Connection conn = getConnection();
@@ -199,6 +215,7 @@ public class DatabaseManager {
         }
     }
 
+    // Удаляем цель
     public static void deleteGoal(int goalId) throws SQLException {
         String sql = "DELETE FROM goals WHERE id = ?";
         try (Connection conn = getConnection();
@@ -208,6 +225,7 @@ public class DatabaseManager {
         }
     }
 
+    // Получаем список целей пользователя
     public static List<Goal> getGoals(int userId) throws SQLException {
         List<Goal> goals = new ArrayList<>();
         String sql = "SELECT id, goal_description, target_amount FROM goals WHERE user_id = ?";
@@ -226,6 +244,7 @@ public class DatabaseManager {
         return goals;
     }
 
+    // Получаем общую сумму доходов пользователя
     public static double getTotalIncome(int userId) throws SQLException {
         String sql = "SELECT COALESCE(SUM(amount), 0) FROM transactions WHERE user_id = ? AND type = 'INCOME'";
         try (Connection conn = getConnection();
@@ -239,6 +258,7 @@ public class DatabaseManager {
         }
     }
 
+    // Получаем общую сумму расходов пользователя
     public static double getTotalExpense(int userId) throws SQLException {
         String sql = "SELECT COALESCE(SUM(amount), 0) FROM transactions WHERE user_id = ? AND type = 'EXPENSE'";
         try (Connection conn = getConnection();
@@ -252,8 +272,8 @@ public class DatabaseManager {
         }
     }
 
+    // Добавляем заметку для пользователя
     public static void addNote(int userId, int analystId, String text, LocalDate date) throws SQLException {
-        // Проверка существования analystId
         String checkSql = "SELECT 1 FROM users WHERE id = ? AND role = 'ANALYST'";
         try (Connection conn = getConnection();
              PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
@@ -275,6 +295,7 @@ public class DatabaseManager {
         }
     }
 
+    // Получаем список заметок для пользователя
     public static List<Note> getNotesForUser(int userId) throws SQLException {
         List<Note> notes = new ArrayList<>();
         String sql = "SELECT n.id, n.text, n.created_at, u.username AS analyst_username " +
@@ -295,6 +316,7 @@ public class DatabaseManager {
         return notes;
     }
 
+    // Получаем сводку по всем пользователям
     public static List<UserSummary> getUserSummaries(String period) throws SQLException {
         List<UserSummary> summaries = new ArrayList<>();
         String sql = "SELECT u.id, u.username, u.name, u.surname, " +

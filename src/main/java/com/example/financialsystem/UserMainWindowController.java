@@ -1,5 +1,5 @@
 package com.example.financialsystem;
-
+// Импорты для работы с JavaFX, базой данных и датами
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,7 +50,7 @@ public class UserMainWindowController {
     private void initialize() {
         setupTableColumns();
     }
-
+    // Задаём текущего пользователя
     public void setUser(RegularUser user) {
         this.user = user;
         userLabel.setText(user.getUsername());
@@ -78,7 +78,7 @@ public class UserMainWindowController {
         goalTable.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("description"));
         goalTable.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("targetAmount"));
     }
-
+    // Заполняем таблицы данными пользователя
     private void loadTables() {
         try {
             incomeTable.setItems(FXCollections.observableArrayList(user.getIncomes()));
@@ -187,7 +187,7 @@ public class UserMainWindowController {
         sourceField.clear();
         dateIncomePicker.setValue(null);
     }
-
+    // Показ вкладки доходов
     @FXML
     private void showIncomePane() {
         incomePane.setVisible(true);

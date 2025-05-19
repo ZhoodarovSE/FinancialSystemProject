@@ -1,5 +1,5 @@
 package com.example.financialsystem;
-
+//Инструменты для работы с JavaFX
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
